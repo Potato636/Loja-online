@@ -29,20 +29,26 @@ export function Header() {
             
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/">
-                <a className={`text-foreground hover:text-primary transition-colors font-medium ${location === '/' ? 'text-primary' : ''}`} data-testid="nav-home">
-                  Início
-                </a>
+              <Link 
+                href="/"
+                className={`text-foreground hover:text-primary transition-colors font-medium ${location === '/' ? 'text-primary' : ''}`} 
+                data-testid="nav-home"
+              >
+                Início
               </Link>
-              <Link href="/products">
-                <a className={`text-foreground hover:text-primary transition-colors font-medium ${location === '/products' ? 'text-primary' : ''}`} data-testid="nav-products">
-                  Produtos
-                </a>
+              <Link 
+                href="/products"
+                className={`text-foreground hover:text-primary transition-colors font-medium ${location === '/products' ? 'text-primary' : ''}`}
+                data-testid="nav-products"
+              >
+                Produtos
               </Link>
-              <Link href="/admin">
-                <a className={`text-foreground hover:text-primary transition-colors font-medium ${location === '/admin' ? 'text-primary' : ''}`} data-testid="nav-admin">
-                  Admin
-                </a>
+              <Link 
+                href="/admin"
+                className={`text-foreground hover:text-primary transition-colors font-medium ${location === '/admin' ? 'text-primary' : ''}`}
+                data-testid="nav-admin"
+              >
+                Admin
               </Link>
             </nav>
             
@@ -83,20 +89,26 @@ export function Header() {
           {isMobileMenuOpen && (
             <nav className="md:hidden mt-4 py-4 border-t border-border">
               <div className="flex flex-col space-y-4">
-                <Link href="/">
-                  <a className="text-foreground hover:text-primary transition-colors font-medium" data-testid="nav-mobile-home">
-                    Início
-                  </a>
+                <Link 
+                  href="/"
+                  className="text-foreground hover:text-primary transition-colors font-medium"
+                  data-testid="nav-mobile-home"
+                >
+                  Início
                 </Link>
-                <Link href="/products">
-                  <a className="text-foreground hover:text-primary transition-colors font-medium" data-testid="nav-mobile-products">
-                    Produtos
-                  </a>
+                <Link 
+                  href="/products"
+                  className="text-foreground hover:text-primary transition-colors font-medium"
+                  data-testid="nav-mobile-products"
+                >
+                  Produtos
                 </Link>
-                <Link href="/admin">
-                  <a className="text-foreground hover:text-primary transition-colors font-medium" data-testid="nav-mobile-admin">
-                    Admin
-                  </a>
+                <Link 
+                  href="/admin"
+                  className="text-foreground hover:text-primary transition-colors font-medium"
+                  data-testid="nav-mobile-admin"
+                >
+                  Admin
                 </Link>
               </div>
             </nav>
