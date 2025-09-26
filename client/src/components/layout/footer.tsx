@@ -46,24 +46,30 @@ export function Footer() {
             <h4 className="font-bold mb-4">Links Rápidos</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/products?category=faccoes">
-                  <a className="text-muted-foreground hover:text-primary transition-colors" data-testid="link-factions">
-                    Facções
-                  </a>
+                <Link 
+                  href="/products?category=faccoes"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  data-testid="link-factions"
+                >
+                  Facções
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=corporacoes">
-                  <a className="text-muted-foreground hover:text-primary transition-colors" data-testid="link-corporations">
-                    Corporações
-                  </a>
+                <Link 
+                  href="/products?category=corporacoes"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  data-testid="link-corporations"
+                >
+                  Corporações
                 </Link>
               </li>
               <li>
-                <Link href="/products?category=vip">
-                  <a className="text-muted-foreground hover:text-primary transition-colors" data-testid="link-vip">
-                    Benefícios VIP
-                  </a>
+                <Link 
+                  href="/products?category=vip"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  data-testid="link-vip"
+                >
+                  Benefícios VIP
                 </Link>
               </li>
             </ul>
