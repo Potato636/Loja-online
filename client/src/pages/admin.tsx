@@ -12,6 +12,29 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Product, Category, Order } from '@shared/schema';
 
 export default function Admin() {
+  const { data: user, isLoading: userLoading } = useQuery({
+    queryKey: ['/api/me'],
+    queryFn: () => apiRequest('GET', '/api/me').then(res => res.json()),
+  });
+
+  if (userLoading) {
+    return <div className="flex items-center justify-center min-h-screen">Carregando...</div>;
+  }
+  
+  if (!user || !user.isAdmin) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-destructive mb-4">Acesso Negado</h1>
+          <p className="text-muted-foreground">Você não tem permissão para acessar o painel administrativo.</p>
+          <Button onClick={() => window.location.href = '/'} className="mt-4">
+            Voltar ao Início
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   const [isProductDialogOpen, setIsProductDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | undefined>();
   const queryClient = useQueryClient();
@@ -20,14 +43,17 @@ export default function Admin() {
   // Fetch data
   const { data: products = [] } = useQuery<Product[]>({
     queryKey: ['/api/products'],
+    queryFn: () => apiRequest('GET', '/api/products').then(res => res.json()),
   });
 
   const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ['/api/categories'],
+    queryFn: () => apiRequest('GET', '/api/categories').then(res => res.json()),
   });
 
   const { data: orders = [] } = useQuery<Order[]>({
     queryKey: ['/api/orders'],
+    queryFn: () => apiRequest('GET', '/api/orders').then(res => res.json()),
   });
 
   // Delete product mutation

@@ -5,12 +5,19 @@ import { z } from "zod";
 
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
+  serial: varchar("serial", { length: 32 }).notNull().unique(),
+  username: varchar("username", { length: 50 }).notNull().unique(),
   password: text("password").notNull(),
   email: text("email"),
   isAdmin: boolean("is_admin").default(false),
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
+  originalIp: text("original_ip"),
+  originalUserAgent: text("original_user_agent"),
+  mtaMoney: integer("mta_money").default(0),
+  mtaWeapon: integer("mta_weapon").default(0),
+  mtaHealth: integer("mta_health").default(100),
+  mtaArmor: integer("mta_armor").default(0),
 });
 
 export const categories = pgTable("categories", {
@@ -61,11 +68,30 @@ export const cartItems = pgTable("cart_items", {
   createdAt: timestamp("created_at").default(sql`now()`),
 });
 
+export const activations = pgTable("activations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  productId: varchar("product_id").notNull(),
+  activatedAt: timestamp("activated_at").default(sql`now()`),
+  expiresAt: timestamp("expires_at"), // Optional for subscriptions
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   stripeCustomerId: true,
   stripeSubscriptionId: true,
+}).extend({
+  serial: z.string().length(32, "Serial must be 32 characters"),
+  username: z.string().min(3, "Username must be at least 3 characters").max(50, "Username must be at most 50 characters"),
 });
+
+export const updateUserSchema = createInsertSchema(users).omit({
+  id: true,
+  serial: true,
+  stripeCustomerId: true,
+  stripeSubscriptionId: true,
+  isAdmin: true,
+}).partial();
 
 export const insertCategorySchema = createInsertSchema(categories).omit({
   id: true,
@@ -90,12 +116,19 @@ export const insertCartItemSchema = createInsertSchema(cartItems).omit({
   createdAt: true,
 });
 
+export const insertActivationSchema = createInsertSchema(activations).omit({
+  id: true,
+  activatedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type UpdateUser = z.infer<typeof updateUserSchema>;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type InsertOrderItem = z.infer<typeof insertOrderItemSchema>;
 export type InsertCartItem = z.infer<typeof insertCartItemSchema>;
+export type InsertActivation = z.infer<typeof insertActivationSchema>;
 
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
@@ -146,9 +179,21 @@ export const cartItemsRelations = relations(cartItems, ({ one }) => ({
   }),
 }));
 
+export const activationsRelations = relations(activations, ({ one }) => ({
+  user: one(users, {
+    fields: [activations.userId],
+    references: [users.id],
+  }),
+  product: one(products, {
+    fields: [activations.productId],
+    references: [products.id],
+  }),
+}));
+
 export type User = typeof users.$inferSelect;
 export type Category = typeof categories.$inferSelect;
 export type Product = typeof products.$inferSelect;
 export type Order = typeof orders.$inferSelect;
 export type OrderItem = typeof orderItems.$inferSelect;
 export type CartItem = typeof cartItems.$inferSelect;
+export type Activation = typeof activations.$inferSelect;

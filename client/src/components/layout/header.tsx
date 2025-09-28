@@ -1,15 +1,17 @@
 import { Link, useLocation } from 'wouter';
-import { ShoppingCart, User, Menu, Zap } from 'lucide-react';
+import { ShoppingCart, User, Menu, Zap, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/hooks/use-cart';
 import { useState } from 'react';
 import { ShoppingCartOverlay } from '@/components/cart/shopping-cart';
+import { useAuth } from '@/hooks/useAuth';
 
 export function Header() {
   const [location] = useLocation();
   const { itemCount } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <>
@@ -69,10 +71,55 @@ export function Header() {
               </button>
               
               {/* User Account */}
-              <Button className="btn-primary px-4 py-2" data-testid="button-login">
-                <User className="w-4 h-4 mr-2" />
-                Login
-              </Button>
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-muted-foreground">Hi, {user.serial.slice(0, 8)}...</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    asChild
+                    data-testid="button-profile"
+                  >
+                    <Link href="/profile">
+                      <User className="w-4 h-4 mr-2" />
+                      Profile
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => logout.mutate()}
+                    disabled={logout.isPending}
+                    data-testid="button-logout"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex space-x-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    asChild 
+                    data-testid="button-login"
+                  >
+                    <Link href="/login">
+                      <User className="w-4 h-4 mr-2" />
+                      Login
+                    </Link>
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    asChild 
+                    data-testid="button-register"
+                  >
+                    <Link href="/register">
+                      Register
+                    </Link>
+                  </Button>
+                </div>
+              )}
               
               {/* Mobile Menu Toggle */}
               <button 

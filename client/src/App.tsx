@@ -12,6 +12,9 @@ import ProductDetail from "@/pages/product-detail";
 import Checkout from "@/pages/checkout";
 import Success from "./pages/success";
 import Admin from "./pages/admin";
+import Profile from "./pages/profile";
+import Login from "./pages/login";
+import Register from "./pages/register";
 
 function Router() {
   return (
@@ -19,9 +22,12 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
       <Route path="/product/:id" component={ProductDetail} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/success" component={Success} />
       <Route path="/admin" component={Admin} />
+      <Route path="/profile" component={Profile} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

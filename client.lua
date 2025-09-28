@@ -1,4 +1,4 @@
---[[
+<![
 MTA:SA Client-side Script for NovaEraShop Activation Mod
 Handles client-side notifications and UI for product activations.
 
