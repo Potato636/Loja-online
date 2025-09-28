@@ -1,10 +1,35 @@
+import 'dotenv/config';
+
+// Construct DATABASE_URL from individual env vars if not provided
+if (!process.env.DATABASE_URL && process.env.DATABASE_URI) {
+  process.env.DATABASE_URL = `postgresql://${process.env.DATABASE_USER}:${process.env.DATABASE_PASS}@${process.env.DATABASE_URI}/${process.env.DATABASE}`;
+}
+
 import express, { type Request, Response, NextFunction } from "express";
+import session from 'express-session';
+import passport from 'passport';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import './auth';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'your-fallback-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true in production with HTTPS
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -61,11 +86,7 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
+  server.listen(port, "localhost", () => {
     log(`serving on port ${port}`);
   });
 })();

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta>
+    <info author="NovaEraShop" version="1.0" description="Activation mod for NovaEraShop - Auto-activates purchased products in MTA:SA" type="script" />
+    
+    <script src="mta-activation.lua" type="server" />
+    <script src="client.lua" type="client" />
+    
+    <!-- Settings for resource -->
+    <settings>
+        <setting name="progressive_downloads" value="false" />
+    </settings>
+    
+    <!-- Files to download (if any additional files like configs) -->
+    <!-- <file src="config.json" /> -->
+    
+    <!-- Exports if other resources need to call functions -->
+    <export function="activateProduct" type="server" />
+    
+    <!-- Minify script for production (optional) -->
+    <min_mta_version server="1.5.9" client="1.5.9" />
+</meta>

@@ -75,6 +75,39 @@ async function seed() {
         isSubscription: true,
         stripePriceId: null,
         stock: -1
+      },
+      {
+        name: "Skin Personalizada",
+        description: "Skin exclusiva com aparência única para seu personagem",
+        price: "29.90",
+        categoryId: factionCategory.id,
+        imageUrl: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+        isActive: true,
+        isSubscription: false,
+        stripePriceId: null,
+        stock: 50
+      },
+      {
+        name: "Casa Premium",
+        description: "Casa luxuosa com interior personalizado e localização premium",
+        price: "149.90",
+        categoryId: corporationCategory.id,
+        imageUrl: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+        isActive: true,
+        isSubscription: false,
+        stripePriceId: null,
+        stock: 25
+      },
+      {
+        name: "M4A1 Carbine",
+        description: "Rifle de assalto M4A1 com silenciador e mira holográfica",
+        price: "79.90",
+        categoryId: factionCategory.id,
+        imageUrl: "https://images.unsplash.com/photo-1595590424283-b8f17842773f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
+        isActive: true,
+        isSubscription: false,
+        stripePriceId: null,
+        stock: 30
       }
     ]);
 
